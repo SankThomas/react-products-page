@@ -1,9 +1,12 @@
-import { useState } from "react"
+import { useState, useContext } from "react"
 import data from "../db.json"
 import { Link } from "react-router-dom"
+import Cart from "./Cart"
+import CartContext from "../context/context"
 
 export default function FetchProducts() {
   const [items] = useState(data)
+  const { cart, handleOpenCart } = useContext(CartContext)
 
   return (
     <>
@@ -18,7 +21,7 @@ export default function FetchProducts() {
               <h2 className="text-white text-2xl md:text-3xl lg:text-4xl font-bold mt-3 mb-5">
                 {name}
               </h2>
-              <p className="text-slate-300">{desc}</p>
+              <p className="text-slate-300">{`${desc.substring(0, 200)}...`}</p>
 
               <ul className="flex items-center mt-5 md:mt-10">
                 <li className="mr-5">
@@ -30,7 +33,10 @@ export default function FetchProducts() {
                   </Link>
                 </li>
                 <li>
-                  <button className="bg-white text-slate-900 py-2 px-6">
+                  <button
+                    onClick={handleOpenCart}
+                    className="bg-white text-slate-900 py-2 px-6"
+                  >
                     Add to Cart
                   </button>
                 </li>
@@ -38,6 +44,8 @@ export default function FetchProducts() {
             </div>
           </article>
         ))}
+
+        {cart && <Cart />}
       </section>
     </>
   )
