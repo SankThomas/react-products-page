@@ -1,10 +1,13 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import { Link, useParams } from "react-router-dom"
+import CartContext from "../context/context"
 import data from "../db.json"
+import Cart from "./Cart"
 
 export default function SingleProduct() {
   const [singleProduct, setSingleProduct] = useState([])
   const { name } = useParams()
+  const { cart, handleOpenCart } = useContext(CartContext)
 
   useEffect(() => {
     const findProduct = () => {
@@ -33,7 +36,10 @@ export default function SingleProduct() {
 
             <ul className="flex items-center mt-5 md:mt-10">
               <li className="mr-5">
-                <button className="bg-white text-slate-900 py-2 px-6">
+                <button
+                  onClick={handleOpenCart}
+                  className="bg-white text-slate-900 py-2 px-6"
+                >
                   Add to Cart
                 </button>
               </li>
@@ -45,6 +51,8 @@ export default function SingleProduct() {
             </ul>
           </div>
         </div>
+
+        {cart && <Cart />}
       </section>
     </>
   )
